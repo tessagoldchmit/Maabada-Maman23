@@ -56,13 +56,20 @@ Node *create_circular_linked_list(int n) {
  * Returns:
  *     None
  */
-void save_circular_linked_list_to_file(Node *head, char *filename) {
+void save_circular_linked_list_to_file(Node *head, char *filename, int n) {
     Node *current;
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
         fprintf(stderr, ERR_OPENING_FILE);
         return;
     }
+    /* Write short description at the top of the file */
+    fprintf(fp, "Circular Linked List contents separated by spaces:\n");
+
+    /* Write n to file */
+    fprintf(fp, "n = %d\n", n);
+
+    /* Write nodes data to file */
     current = head;
     while (1) {
         fprintf(fp, "%d ", current->data);
