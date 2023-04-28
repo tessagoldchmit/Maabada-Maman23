@@ -2,21 +2,7 @@
 
 
 /**
- * Calculates the nth Fibonacci number.
- *
- * Args:
- *     n: An integer specifying the index of the Fibonacci number to calculate.
- *
- * Returns:
- *     An integer representing the nth Fibonacci number.
- */
-int fib(int n) {
-    return (n == 0 || n == 1) ? 1 : fib(n - 1) + fib(n - 2);
-}
-
-
-/**
- * Creates a circular linked list of Fibonacci numbers.
+ * Creates a circular linked list of Fibonacci numbers in descending order.
  *
  * Args:
  *     n: An integer specifying the number of Fibonacci numbers to include in the list.
@@ -28,18 +14,24 @@ Node *create_circular_linked_list(int n) {
     Node *head = NULL;
     Node *tail = NULL;
     int i;
-    for (i = n; i >= 0; i--) {
+    unsigned long fib_n = 1, fib_n_minus_1 = 0, fib_n_minus_2;
+    for (i = 0; i <= n; i++) {
         Node *node = (Node *) malloc(sizeof(Node));
         if (node == NULL) {
             fprintf(stderr, ERR_MEMORY_ALLOCATION_FAILED);
             exit(1);
         }
-        node->data = fib(i);
-        if (head == NULL)
+        node->data = fib_n;
+        if (head == NULL) {
             head = node;
-        else
-            tail->next = node;
-        tail = node;
+            tail = head;
+        } else {
+            node->next = head;
+            head = node;
+        }
+        fib_n_minus_2 = fib_n_minus_1;
+        fib_n_minus_1 = fib_n;
+        fib_n = fib_n_minus_2 + fib_n_minus_1;
     }
     tail->next = head;
     return head;
@@ -72,7 +64,7 @@ void save_circular_linked_list_to_file(Node *head, char *filename, int n) {
     /* Write nodes data to file */
     current = head;
     while (1) {
-        fprintf(fp, "%d ", current->data);
+        fprintf(fp, "%lu ", current->data);
         current = current->next;
         if (current == head)
             break;

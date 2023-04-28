@@ -9,7 +9,7 @@
 A structure representing a None in a circular linked list
 */
 typedef struct Node {
-    int data; /* The integer data value of the node */
+    unsigned long data; /* The integer data value of the node */
     struct Node *next; /* A pointer to the next node in the linked list */
 } Node;
 
